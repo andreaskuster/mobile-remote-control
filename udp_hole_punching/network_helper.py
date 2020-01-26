@@ -30,4 +30,4 @@ def network_msg_to_str(message):
 
 
 def str_to_network_msg(string):
-    return string.encode("utf-8") + "\n"
+    return (string + "\n").encode("utf-8")
