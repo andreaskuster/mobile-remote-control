@@ -1,3 +1,3 @@
 # mobile-remote-control
 
-https://travis-ci.com/andreaskuster/mobile-remote-control.svg?branch=master
+[![Build Status](https://travis-ci.com/andreaskuster/mobile-remote-control.svg?branch=master)](https://travis-ci.com/andreaskuster/mobile-remote-control)
