@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     # parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("--hostname", default="0.0.0.0")
+    parser.add_argument("--hostname", default="127.0.0.1")
     parser.add_argument("--port", default="8080")
     args = parser.parse_args()
 
