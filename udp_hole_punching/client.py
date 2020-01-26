@@ -19,7 +19,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-__description__ = "Public Rendezvous Server for the UDP Hole Punching protocol."
+__description__ = "Client behind a NAT."
 __author__ = "Andreas Kuster"
 __copyright__ = "Copyright 2020, Mobile Remote Control"
 __license__ = "GPL"
@@ -29,31 +29,31 @@ import asyncio
 import sys
 
 
-class RendezvousServer:
-
-    def __init__(self):
-        pass
+class Client:
+    message = "dummy message"
 
     def connection_made(self, transport):
-        print("start", transport)
         self.transport = transport
+        print("sending {}".format(self.message))
+        self.transport.sendto(self.message.encode())
+        print("waiting to receive")
 
     def datagram_received(self, data, addr):
-        # simple echo server
-        print("data received:", data, addr)
-        self.transport.sendto(data, addr)
+        print("received {}".format(data.decode()))
+        self.transport.close()
 
     def error_received(self, ex):
         print("error received:", ex)
 
     def connection_lost(self, ex):
-        print("stop", ex)
+        print("closing transport", ex)
+        loop = asyncio.get_event_loop()
+        loop.stop()
 
 
-def start_server(loop, addr):
-    task = asyncio.Task(loop.create_datagram_endpoint(RendezvousServer, local_addr=addr))
-    transport, server = loop.run_until_complete(task)
-    return transport
+def start_client(loop, addr):
+    task = asyncio.Task(loop.create_datagram_endpoint(Client, remote_addr=addr))
+    loop.run_until_complete(task)
 
 
 if __name__ == "__main__":
@@ -67,15 +67,14 @@ if __name__ == "__main__":
     # create event loop
     loop = asyncio.get_event_loop()
 
-    # start udp rendezvous server
-    server = start_server(loop, (args.hostname, args.port))
+    # start udp client
+    start_client(loop, (args.hostname, args.port))
 
     try:
         # run event loop
         loop.run_forever()
     finally:
         # clean up
-        server.close()
         loop.close()
 
     # exit ok
