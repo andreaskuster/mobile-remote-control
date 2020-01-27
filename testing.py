@@ -19,7 +19,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-__description__ = "Continuous Integration unit testing."
+__description__ = "Continuous integration unit testing."
 __author__ = "Andreas Kuster"
 __copyright__ = "Copyright 2020, Mobile Remote Control"
 __license__ = "GPL"
