@@ -5,3 +5,5 @@ install:
   - pip install -r requirements.txt
 script:
   - python3 testing.py
+after_success:
+  - coveralls
